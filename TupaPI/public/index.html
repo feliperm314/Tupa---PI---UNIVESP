@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tupã</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Alerta de chuvas extremas Tupã</h1>
+  </header>
+  <main>
+    <form id="registrationForm">
+      <label for="phone">Qual é o seu número de celular?</label>
+      <input type="tel" id="phone" name="phone" placeholder="Digite seu número de celular" required>
+      <button type="submit">Me alerte</button>
+    </form>
+    <p class="alert-text">Você irá receber alertas sobre chuvas extremas no seu celular</p>
+  </main>
+  <footer>
+    <p>&copy; Sistema de alerta Tupã</p>
+  </footer>
+
+  <script src="index.js"></script>
+  <script>
+    const form = document.getElementById('registrationForm');
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const phoneNumber = form.elements.phone.value;
+
+      fetch('/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          phone: phoneNumber
+        })
+      })
+        .then(response => response.text())
+        .then(message => {
+          alert(message);
+          form.reset();
+        })
+        .catch(error => console.error(error));
+    });
+  </script>
+
+</body>
+
+</html>
